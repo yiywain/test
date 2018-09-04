@@ -1,0 +1,41 @@
+
+//替换当前2D图中所有 name 名字的注释 返回替换的数量
+int drf_change_all_text(char name[])
+{
+
+	//查询的标识符
+	tag_t  object=NULL;
+	//替换的数量
+	int count=0;
+	//判断类型相关
+	int type=0;
+	int sub_type=0;
+
+	//遍历
+	do
+	{
+	
+	UF_OBJ_cycle_by_name("DRAFTSMAN",&object);
+	if(object==NULL_TAG)
+	return count;
+
+	//判断类型
+	UF_OBJ_ask_type_and_subtype(object,&type,&sub_type);
+	if(sub_type==UF_draft_note_subtype&&type==UF_drafting_entity_type)
+	{
+
+	int num=0;
+	UF_DRF_draft_aid_text_info_t  *text_info;
+	UF_DRF_ask_draft_aid_text_info(object,&num,&text_info);
+
+	if(text_info!=NULL)
+	{
+	DPrintf(text_info->text->full_string);
+	UF_DRF_free_text(num,&text_info);
+	}
+	}
+
+	}while(count++);
+
+
+}
